@@ -9,7 +9,6 @@ export const studentData = async () => {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log("find the data", res);
   return res.data;
 };
 
@@ -19,7 +18,6 @@ export const loginData = async (email, password) => {
       email: email,
       password: password,
     });
-    console.log("login page data ", loginpage);
     const cookie = loginpage.data.data.token;
 
     Cookies.set("token", cookie, { expires: 7 });
@@ -32,11 +30,51 @@ export const loginData = async (email, password) => {
 };
 
 export const singleDetail = async (id) => {
-  const response = await axiosInstance.get("/api/emis/student/show/1", {
+  const response = await axiosInstance.get(`/api/emis/student/show/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-  console.log("detail value", response);
+
   return response.data;
+};
+
+export const parentIndividual = async (id) => {
+  const response = await axiosInstance.get(`/api/emis/parents/show/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  console.log("parent value", response);
+  return response.data;
+};
+
+export const instituteIndividual = async (id) => {
+  const res = await axiosInstance.get(`/api/emis/edu-institute/show/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  console.log("institute", res);
+  return res.data;
+};
+
+export const academicDetail = async (id) => {
+  const resp = await axiosInstance.get(`api/emis/academic-program/show/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  console.log("academic program", resp);
+  return resp.data;
+};
+
+export const affiliationProgram = async (id) => {
+  const res = await axiosInstance.get(`api/emis/affiliation/show/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  console.log("affiliation program", res);
+  return res.data;
 };

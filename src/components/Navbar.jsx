@@ -1,31 +1,39 @@
 import React from "react";
 import { Menu } from "antd";
-import student from "../assets/track.png";
-import { Link } from "react-router-dom";
+import logo from "../assets/track.png";
+import { Link, useLocation } from "react-router-dom";
 import { RiLogoutCircleRLine } from "react-icons/ri";
 import { IoCreate, IoHomeSharp } from "react-icons/io5";
 import { CiViewList } from "react-icons/ci";
 
 const Navbar = () => {
+  const location = useLocation();
+  const isHomeRoute = location.pathname === "/";
+
   return (
     <>
-      <div className="flex justify-between ">
+      <div className="flex justify-between mx-10 ">
         <div>
           <Link to="/">
             <img
-              src={student}
+              src={logo}
               className="w-24 h-24 cursor-pointer ml-5"
               alt="Logo"
             />
           </Link>
         </div>
 
-        <div className="flex items-center justify-center w-20">
-          <Link className="flex items-center justify-center gap-1" to="/logout">
-            <span>LogOut</span>
-            <RiLogoutCircleRLine className="mr-5" size={24} />
-          </Link>
-        </div>
+        {isHomeRoute && (
+          <div className="flex items-center justify-center w-20">
+            <Link
+              className="flex items-center justify-center gap-1"
+              to="/logout"
+            >
+              <span>LogOut</span>
+              <RiLogoutCircleRLine className="mr-5" size={24} />
+            </Link>
+          </div>
+        )}
       </div>
 
       <div className="flex items-center justify-center w-full gap-5">
@@ -42,7 +50,7 @@ const Navbar = () => {
           <Menu.Item key="2">
             <Link to="/table" className="flex items-center gap-1">
               <CiViewList size={20} />
-              Table
+              TableList
             </Link>
           </Menu.Item>
           <Menu.Item key="3">

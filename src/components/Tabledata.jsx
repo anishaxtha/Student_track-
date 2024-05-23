@@ -9,11 +9,14 @@ const Tabledata = () => {
   useEffect(() => {
     studentData()
       .then((res) => {
-        console.log("api data", res);
         if (Array.isArray(res.data)) {
-          setList(res.data);
+          const dataWithSN = res.data.map((item, index) => ({
+            ...item,
+            sn: index + 1,
+          }));
+          setList(dataWithSN);
         } else {
-          console.error("APi  response  is not an array ", res.data);
+          console.error("API response is not an array ", res.data);
         }
       })
       .catch((err) => {
@@ -22,6 +25,11 @@ const Tabledata = () => {
   }, []);
 
   const columns = [
+    {
+      title: "SN",
+      dataIndex: "sn",
+      key: "0",
+    },
     {
       title: "Student Name",
       dataIndex: "student_name_en",

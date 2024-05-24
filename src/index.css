@@ -11,3 +11,7 @@
 body {
   font-family: "Poppins", sans-serif;
 }
+
+.active-link {
+  background-color: rgb(0, 0, 255);
+}

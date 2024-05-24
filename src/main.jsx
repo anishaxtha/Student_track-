@@ -11,6 +11,11 @@ import StudentView from "./components/Student/StudentView.jsx";
 import ParentDetail from "./components/Student/ParentDetail.jsx";
 import Institute from "./components/Student/Institute.jsx";
 import AcademicProgram from "./components/Student/AcademicProgram.jsx";
+import AddInstitute from "./components/AddData/AddInstitute.jsx";
+import AddParent from "./components/AddData/AddParent.jsx";
+import AddStudent from "./components/AddData/AddStudent.jsx";
+import AddAffiliation from "./components/AddData/AddAffiliation.jsx";
+import AddAcademic from "./components/AddData/AddAcademic.jsx";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +33,28 @@ const router = createBrowserRouter([
       {
         path: "/create",
         element: <Create />,
+        children: [
+          {
+            path: "addaffiliation",
+            element: <AddAffiliation />,
+          },
+          {
+            path: "addacademic",
+            element: <AddAcademic />,
+          },
+          {
+            path: "addinstitute",
+            element: <AddInstitute />,
+          },
+          {
+            path: "addparent",
+            element: <AddParent />,
+          },
+          {
+            path: "addstudent",
+            element: <AddStudent />,
+          },
+        ],
       },
     ],
   },

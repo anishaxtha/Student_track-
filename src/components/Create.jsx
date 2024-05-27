@@ -71,7 +71,7 @@ const Create = () => {
             </Link>
           </div>
         </div>
-        <div className="bg-red-500 w-8/12 mt-5">
+        <div className=" w-8/12 mt-5">
           <Outlet />
         </div>
       </div>

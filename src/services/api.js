@@ -78,3 +78,17 @@ export const affiliationProgram = async (id) => {
   console.log("affiliation program", res);
   return res.data;
 };
+
+export const addAffiliation = async (affiliation) => {
+  const response = await axiosInstance.post(
+    "api/emis/affiliation/store",
+    affiliation,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  console.log("add afiliation", response);
+  return response.data;
+};

@@ -1,15 +1,5 @@
 import React from "react";
-import {
-  Button,
-  Checkbox,
-  Col,
-  DatePicker,
-  Form,
-  Input,
-  Row,
-  Select,
-  Upload,
-} from "antd";
+import { Button, DatePicker, Form, Input, Select, Upload } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
 const { Option } = Select;
@@ -99,12 +89,11 @@ const AddStudent = () => {
       <h1 className="text-2xl text-center  text-blue-600 font-semibold mt-5">
         STUDENT REGISTRATION FORM
       </h1>
-      <div className="flex items-center justify-center mt-5 ">
+      <div className="flex items-center justify-center mt-5">
         <Form
           {...formItemLayout}
           form={form}
           name="register"
-          className="flex bg-green-500  flex-wrap h-96"
           onFinish={onFinish}
           scrollToFirstError
         >

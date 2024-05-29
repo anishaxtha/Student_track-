@@ -22,13 +22,12 @@ const formItemLayout = {
 };
 
 const AddAffiliation = () => {
-  const [selectedLogo, setSelectedLogo] = useState({
-    logo: null,
-    url: "",
-  });
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState(null);
+
   const [affiliation, setAffiliation] = useState({
     name: "",
-    logo: selectedLogo.logo,
+    logo: [],
     email: "",
     address: "",
     contact: "",
@@ -36,9 +35,9 @@ const AddAffiliation = () => {
   });
 
   useEffect(() => {
-    console.log("file: ", selectedLogo.logo);
-    console.log("url: ", selectedLogo.url);
-  }, [selectedLogo]);
+    console.log("file: ", image);
+    console.log("url: ", preview);
+  }, [image, preview]);
 
   const handleAffiliation = (e) => {
     const { name, value } = e.target;
@@ -55,28 +54,21 @@ const AddAffiliation = () => {
     });
   };
 
-  const handleUploadChange = (e) => {
-    const file = e.target.files[0]; // Get the uploaded file
-
-    // Check if a file is selected and if it's an image
-    if (file && file.type.startsWith("image/")) {
-      const reader = new FileReader(); // Create a new file reader
-
-      // Define what happens when file reading is done
-      reader.onloadend = (event) => {
-        // Set the logo property in the state to the read file data
-        setSelectedLogo({
-          logo: file,
-          url: event.target.result,
-        });
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(file);
+        setAffiliation({ ...affiliation, logo: file });
+        setPreview(reader.result);
       };
-
-      // Start reading the selected file
       reader.readAsDataURL(file);
-    } else {
-      // If the selected file is not an image, you can show a message or perform other actions
-      console.error("Please select a valid image file.");
     }
+    console.log(
+      "🚀 ~ handleImageChange ~ handleImageChange:",
+      handleImageChange
+    );
   };
 
   const handleSubmit = async () => {
@@ -112,6 +104,7 @@ const AddAffiliation = () => {
             onChange={handleAffiliation}
           />
         </Form.Item>
+
         <Form.Item
           label="Logo"
           name="logo"
@@ -122,13 +115,16 @@ const AddAffiliation = () => {
             },
           ]}
         >
-          <input
-            name="logo"
-            type="file"
-            accept="image/*"
-            onChange={handleUploadChange}
-          />
+          <input type="file" onChange={handleImageChange} />
+          {preview && (
+            <img
+              src={preview}
+              alt="Image Preview"
+              style={{ width: "200px", height: "auto" }}
+            />
+          )}
         </Form.Item>
+
         <Form.Item
           label="Email"
           name="email"

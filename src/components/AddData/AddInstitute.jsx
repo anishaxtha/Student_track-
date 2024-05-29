@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Button,
   DatePicker,
@@ -6,12 +6,10 @@ import {
   Input,
   InputNumber,
   Select,
-  TreeSelect,
-  Upload,
+  message,
 } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import { addInstitute } from "../../services/api";
 
-const { RangePicker } = DatePicker;
 const formItemLayout = {
   labelCol: {
     xs: {
@@ -31,29 +29,37 @@ const formItemLayout = {
   },
 };
 
-const props = {
-  name: "file",
-  // action: "https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload",
-  headers: {
-    authorization: "authorization-text",
-  },
-  onChange(info) {
-    if (info.file.status !== "uploading") {
-      console.log(info.file, info.fileList);
-    }
-    if (info.file.status === "done") {
-      message.success(`${info.file.name} file uploaded successfully`);
-    } else if (info.file.status === "error") {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
-};
+const { Option } = Select;
 
 const AddInstitute = () => {
   const [form] = Form.useForm();
+  const [preview, setPreview] = useState(null);
 
-  const onFinish = (values) => {
-    console.log("Received values from form: ", values);
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPreview(reader.result);
+        form.setFieldsValue({ institute_logo: file });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const handleSubmit = async (values) => {
+    try {
+      const formData = new FormData();
+      for (const key in values) {
+        formData.append(key, values[key]);
+      }
+      const instituteData = await addInstitute(formData);
+      console.log("🚀 ~ handleSubmit ~ instituteData:", instituteData);
+      message.success("Institute added successfully!");
+    } catch (error) {
+      console.error("Error adding institute: ", error);
+      message.error("Failed to add institute. Please try again.");
+    }
   };
 
   return (
@@ -64,15 +70,14 @@ const AddInstitute = () => {
       <Form
         {...formItemLayout}
         form={form}
-        name="add_institute"
-        onFinish={onFinish}
+        onFinish={handleSubmit}
         style={{
           maxWidth: 760,
         }}
       >
         <Form.Item
-          label="Institute Name(in english)"
-          name="institute_name_en"
+          label="Academic id"
+          name="academic_program_id"
           rules={[
             {
               required: true,
@@ -84,7 +89,20 @@ const AddInstitute = () => {
         </Form.Item>
 
         <Form.Item
-          label="Institute Name(in nepali)"
+          label="Institute Name (in English)"
+          name="institute_name_en"
+          rules={[
+            {
+              required: true,
+              message: "Please input!",
+            },
+          ]}
+        >
+          <Input placeholder="Institute Name (in English)" />
+        </Form.Item>
+
+        <Form.Item
+          label="Institute Name (in Nepali)"
           name="institute_name_np"
           rules={[
             {
@@ -95,6 +113,7 @@ const AddInstitute = () => {
         >
           <Input />
         </Form.Item>
+
         <Form.Item
           label="Institute Address"
           name="institute_address"
@@ -114,15 +133,11 @@ const AddInstitute = () => {
           rules={[
             {
               required: true,
-              message: "Please input!",
+              message: "Please select!",
             },
           ]}
         >
-          <Select
-            placeholder="Select a option and change input text above"
-            // onChange={onGenderChange}
-            allowClear
-          >
+          <Select placeholder="Select a type" allowClear>
             <Option value="private">Private</Option>
             <Option value="government">Government</Option>
             <Option value="community">Community</Option>
@@ -174,13 +189,18 @@ const AddInstitute = () => {
           rules={[
             {
               required: true,
-              message: "Please input!",
+              message: "Please upload!",
             },
           ]}
         >
-          <Upload {...props}>
-            <Button icon={<UploadOutlined />}>Click to Upload</Button>
-          </Upload>
+          <input type="file" onChange={handleImageChange} />
+          {preview && (
+            <img
+              src={preview}
+              alt="Image Preview"
+              style={{ width: "200px", height: "auto" }}
+            />
+          )}
         </Form.Item>
 
         <Form.Item
@@ -189,7 +209,7 @@ const AddInstitute = () => {
           rules={[
             {
               required: true,
-              message: "Please input!",
+              message: "Please input a valid URL!",
               type: "url",
             },
           ]}
@@ -211,7 +231,7 @@ const AddInstitute = () => {
         </Form.Item>
 
         <Form.Item
-          label="Institute Longitute"
+          label="Institute Longitude"
           name="institute_longitude"
           rules={[
             {
@@ -250,7 +270,7 @@ const AddInstitute = () => {
         </Form.Item>
 
         <Form.Item
-          label="Focal-Person PhoneNumber"
+          label="Focal Person Phone Number"
           name="focal_person_phone_number"
           rules={[
             {

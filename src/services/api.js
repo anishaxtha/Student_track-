@@ -79,16 +79,86 @@ export const affiliationProgram = async (id) => {
   return res.data;
 };
 
-export const addAffiliation = async (affiliation) => {
+export const addAffiliation = async (formData) => {
   const response = await axiosInstance.post(
     "api/emis/affiliation/store",
-    affiliation,
+    formData,
     {
       headers: {
         Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
       },
     }
   );
-  console.log("add afiliation", response);
+  console.log("🚀 ~ addAffiliation ~ response:", response);
   return response.data;
+};
+
+export const addAcademic = async (academic) => {
+  const res = await axiosInstance.post(
+    "api/emis/academic-program/store",
+    academic,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+  console.log("🚀 ~ addAcademic ~ res:", res);
+  return res.data;
+};
+
+export const addInstitute = async (institute) => {
+  const response = await axiosInstance.post(
+    "api/emis/edu-institute/store",
+    institute,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    }
+  );
+  console.log("🚀 ~ addInstitute ~ response:", response);
+  return response.data;
+};
+
+export const addParent = async (formData) => {
+  const response = await axiosInstance.post(
+    "api/emis/parents/store",
+    formData,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-type": "multipart/form-data",
+      },
+    }
+  );
+  console.log("🚀 ~ addParent ~ response:", response);
+  return response.data;
+};
+
+export const addStudent = async (formData) => {
+  const response = await axiosInstance.post(
+    "api/emis/student/store",
+    formData,
+    {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-type": "multipart/form-data",
+      },
+    }
+  );
+  console.log("🚀 ~ addStudent ~ response:", response);
+  return response.data;
+};
+
+export const listInstitute = async () => {
+  const res = await axiosInstance.get("api/emis/edu-institute/index", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return res.data;
 };

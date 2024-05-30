@@ -102,7 +102,7 @@ const AddInstitute = () => {
               </Option>
             ))}
           </Select>
-        </Form.Item>  
+        </Form.Item>
 
         <Form.Item
           label="Institute Name (in English)"

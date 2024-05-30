@@ -1,6 +1,5 @@
 import { Button, Checkbox, Form, Input } from "antd";
 import { LockOutlined, UserOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
 import { loginData } from "../services/api";
 import { useNavigate } from "react-router-dom";
 import "../index.css";

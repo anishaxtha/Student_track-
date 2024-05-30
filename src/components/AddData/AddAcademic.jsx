@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Form, Input, InputNumber } from "antd";
+import { Button, Form, Input, InputNumber, Select } from "antd";
 import { addAcademic } from "../../services/api";
 
 const formItemLayout = {
@@ -14,7 +14,8 @@ const formItemLayout = {
 };
 
 const AddAcademic = () => {
-  const [affiliations, setAffiliations] = useState([]);
+  const [affiliations, setAffiliations] = useState();
+
   const [academic, setAcademic] = useState({
     name: "",
     duration: "",
@@ -22,6 +23,9 @@ const AddAcademic = () => {
     affiliation_id: "", // Added affiliation_id to academic state
   });
 
+  const handleAcademicProgram = (value) => {
+    setAffiliations(value); // Update selected program ID when an option is selected
+  };
   const handleAcademic = (name, value) => {
     setAcademic({
       ...academic,
@@ -39,12 +43,7 @@ const AddAcademic = () => {
     }
   };
 
-
-
-  useEffect(()=>{
-    
-
-  },[])
+  useEffect(() => {}, []);
   return (
     <div>
       <h1 className="text-center text-xl font-semibold text-blue-500 mb-5">
@@ -91,15 +90,25 @@ const AddAcademic = () => {
         </Form.Item>
 
         <Form.Item
-          label="Affiliation Id"
+          label="Affiliation Name"
           name="affiliation_id"
           rules={[{ required: true, message: "Please input!" }]}
         >
-          <InputNumber
+          {/* <InputNumber
             style={{ width: "200px" }}
             value={academic.affiliation_id}
             onChange={(value) => handleAcademic("affiliation_id", value)}
-          />
+          /> */}
+
+          <Select
+            placeholder="Select an academic program"
+            onSelect={handleAcademicProgram}
+            style={{ width: "300px" }}
+          >
+            <Option value="1">{affiliations}</Option>
+            <Option value="2">{affiliations} </Option>
+            {/* Add more options as needed */}
+          </Select>
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>

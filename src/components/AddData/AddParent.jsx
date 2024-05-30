@@ -74,7 +74,7 @@ const AddParent = () => {
           style={{ maxWidth: 750 }}
         >
           <Form.Item
-            label="Institute"
+            label="Institute Name"
             name="institute_id"
             rules={[{ required: true, message: "Please select an institute!" }]}
           >

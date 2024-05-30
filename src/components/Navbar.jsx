@@ -1,5 +1,5 @@
-import React from "react";
-import { Menu } from "antd";
+import React, { useState } from "react";
+import { Menu, Popconfirm, message } from "antd";
 import logo from "../assets/track.png";
 import { Link, useLocation } from "react-router-dom";
 import { RiLogoutCircleRLine } from "react-icons/ri";
@@ -9,6 +9,17 @@ import { CiViewList } from "react-icons/ci";
 const Navbar = () => {
   const location = useLocation();
   const isHomeRoute = location.pathname === "/";
+  const [logoutConfirm, setLogoutConfirm] = useState(false);
+
+  const confirmLogout = () => {
+    message.success("Logout Successful");
+    setLogoutConfirm(false);
+  };
+
+  const cancelLogout = () => {
+    message.error("Logout cancelled");
+    setLogoutConfirm(false);
+  };
 
   return (
     <>
@@ -26,12 +37,36 @@ const Navbar = () => {
         {isHomeRoute && (
           <div className="flex items-center justify-center w-20">
             <Link
-              className="flex items-center justify-center gap-1"
-              to="/logout"
+              to="/login"
+              style={{ display: logoutConfirm ? "block" : "none" }}
             >
-              <span>LogOut</span>
-              <RiLogoutCircleRLine className="mr-5" size={24} />
+              <Popconfirm
+                title="Logout Option"
+                description="Are you sure you want to logOut?"
+                visible={logoutConfirm}
+                onConfirm={confirmLogout}
+                onCancel={cancelLogout}
+                okText="Yes"
+                cancelText="No"
+              >
+                <div
+                  className="flex items-center justify-center gap-1 cursor-pointer"
+                  onClick={() => setLogoutConfirm(true)}
+                >
+                  <span>Logout</span>
+                  <RiLogoutCircleRLine className="mr-5" size={24} />
+                </div>
+              </Popconfirm>
             </Link>
+            {!logoutConfirm && (
+              <div
+                className="flex items-center justify-center gap-1 cursor-pointer"
+                onClick={() => setLogoutConfirm(true)}
+              >
+                <span>Logout</span>
+                <RiLogoutCircleRLine className="mr-5" size={24} />
+              </div>
+            )}
           </div>
         )}
       </div>

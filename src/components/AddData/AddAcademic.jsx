@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Form, Input, InputNumber } from "antd";
 import { addAcademic } from "../../services/api";
 
@@ -14,6 +14,7 @@ const formItemLayout = {
 };
 
 const AddAcademic = () => {
+  const [affiliations, setAffiliations] = useState([]);
   const [academic, setAcademic] = useState({
     name: "",
     duration: "",
@@ -38,8 +39,12 @@ const AddAcademic = () => {
     }
   };
 
-  // const data = () => {};
 
+
+  useEffect(()=>{
+    
+
+  },[])
   return (
     <div>
       <h1 className="text-center text-xl font-semibold text-blue-500 mb-5">

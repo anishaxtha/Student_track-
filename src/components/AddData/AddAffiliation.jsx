@@ -81,12 +81,7 @@ const AddAffiliation = () => {
       <h1 className="text-center text-xl font-semibold text-blue-500 mb-5">
         AFFILIATION DETAILS
       </h1>
-      <Form
-        {...formItemLayout}
-        name="register"
-        // scrollToFirstError
-        onFinish={handleSubmit}
-      >
+      <Form {...formItemLayout} name="register" onFinish={handleSubmit}>
         <Form.Item
           label="Name"
           name="name"

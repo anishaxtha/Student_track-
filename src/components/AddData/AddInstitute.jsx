@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   DatePicker,
@@ -8,7 +8,7 @@ import {
   Select,
   message,
 } from "antd";
-import { addInstitute } from "../../services/api";
+import { addInstitute, listAcademic } from "../../services/api";
 
 const formItemLayout = {
   labelCol: {
@@ -34,6 +34,7 @@ const { Option } = Select;
 const AddInstitute = () => {
   const [form] = Form.useForm();
   const [preview, setPreview] = useState(null);
+  const [academics, setAcademics] = useState([]);
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -62,6 +63,20 @@ const AddInstitute = () => {
     }
   };
 
+  useEffect(() => {
+    listAcademic()
+      .then((response) => {
+        if (Array.isArray(response.data)) {
+          setAcademics(response.data);
+        } else {
+          console.error("API response is not an array", response.data);
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching academic list", err);
+      });
+  }, []);
+
   return (
     <div>
       <h1 className="text-xl font-semibold ml-52 mb-5 text-blue-500">
@@ -76,17 +91,18 @@ const AddInstitute = () => {
         }}
       >
         <Form.Item
-          label="Academic id"
+          label="Academic Program"
           name="academic_program_id"
-          rules={[
-            {
-              required: true,
-              message: "Please input!",
-            },
-          ]}
+          rules={[{ required: true, message: "Please select an institute!" }]}
         >
-          <Input />
-        </Form.Item>
+          <Select placeholder="Select an parent">
+            {academics.map((item) => (
+              <Option value={item.id} key={item.id}>
+                {item.name}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>  
 
         <Form.Item
           label="Institute Name (in English)"

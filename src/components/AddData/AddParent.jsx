@@ -1,6 +1,6 @@
-import { Button, Form, Input, InputNumber, message } from "antd";
-import React, { useState } from "react";
-import { addParent } from "../../services/api";
+import { Button, Form, Input, InputNumber, Select, message } from "antd";
+import React, { useEffect, useState } from "react";
+import { addParent, listInstitute } from "../../services/api";
 
 const formItemLayout = {
   labelCol: {
@@ -18,6 +18,7 @@ const AddParent = () => {
 
   const [fatherPreview, setFatherPreview] = useState(null);
   const [motherPreview, setMotherPreview] = useState(null);
+  const [institutes, setInstitutes] = useState([]);
 
   const handleImageChange = (setPreview, field) => (event) => {
     const file = event.target.files[0];
@@ -46,6 +47,20 @@ const AddParent = () => {
     }
   };
 
+  useEffect(() => {
+    listInstitute()
+      .then((res) => {
+        if (Array.isArray(res.data)) {
+          setInstitutes(res.data);
+        } else {
+          console.error("API response is not an array", res.data);
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching institutes list:", err);
+      });
+  }, []);
+
   return (
     <>
       <div>
@@ -59,11 +74,17 @@ const AddParent = () => {
           style={{ maxWidth: 750 }}
         >
           <Form.Item
-            label="Institute ID"
+            label="Institute"
             name="institute_id"
-            rules={[{ required: true, message: "Please input!" }]}
+            rules={[{ required: true, message: "Please select an institute!" }]}
           >
-            <Input />
+            <Select placeholder="Select an institute">
+              {institutes.map((item) => (
+                <Option value={item.id} key={item.id}>
+                  {item.institute_name_en}
+                </Option>
+              ))}
+            </Select>
           </Form.Item>
 
           <Form.Item

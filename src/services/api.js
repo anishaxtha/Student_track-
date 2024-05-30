@@ -162,3 +162,25 @@ export const listInstitute = async () => {
   });
   return res.data;
 };
+
+export const listParent = async () => {
+  const response = await axiosInstance.get("api/emis/parents/index", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
+export const listAcademic = async () => {
+  const response = await axiosInstance.get("api/emis/academic-program/index", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+};
+
+// export const listAffiliation = async() =>{
+//   const response = await axiosInstance.get("")
+// }

@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Button, DatePicker, Form, Input, Select, message } from "antd";
-import { addStudent, listInstitute } from "../../services/api";
+import {
+  addStudent,
+  listAcademic,
+  listInstitute,
+  listParent,
+} from "../../services/api";
 
 const { Option } = Select;
 
@@ -18,12 +23,11 @@ const formItemLayout = {
 const AddStudent = () => {
   const [form] = Form.useForm();
   const [preview, setPreview] = useState(null);
-  const [instituteID, setInstituteID] = useState(null);
-  const [institutes, setInstitutes] = useState([]);
+  // const [instituteID, setInstituteID] = useState(null);
 
-  const handleInstituteId = (value) => {
-    setInstituteID(value);
-  };
+  const [institutes, setInstitutes] = useState([]);
+  const [parents, setParents] = useState([]);
+  const [academics, setAcademics] = useState([]);
 
   useEffect(() => {
     listInstitute()
@@ -39,14 +43,43 @@ const AddStudent = () => {
       });
   }, []);
 
+  useEffect(() => {
+    listParent()
+      .then((response) => {
+        if (Array.isArray(response.data)) {
+          setParents(response.data);
+        } else {
+          console.error("API response is not an array", response.data);
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching parents list:", err);
+      });
+  }, []);
+
+  useEffect(() => {
+    listAcademic()
+      .then((response) => {
+        if (Array.isArray(response.data)) {
+          setAcademics(response.data);
+        } else {
+          console.error("API response is not an array", response.data);
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching academic list", err);
+      });
+  }, []);
+
   const handleSubmit = async (values) => {
     try {
       const formData = new FormData();
       for (const key in values) {
         formData.append(key, values[key]);
       }
-      formData.append("institute_id", instituteID);
+      // formData.append("institute_id", instituteID);
       const studentData = await addStudent(formData);
+      console.log("🚀 ~ handleSubmit ~ studentData:", studentData);
       message.success("Student added successfully!");
     } catch (error) {
       console.error("Error adding student:", error);
@@ -85,13 +118,38 @@ const AddStudent = () => {
           name="institute_id"
           rules={[{ required: true, message: "Please select an institute!" }]}
         >
-          <Select
-            placeholder="Select an institute"
-            onSelect={handleInstituteId}
-          >
+          <Select placeholder="Select an institute">
             {institutes.map((item) => (
               <Option value={item.id} key={item.id}>
                 {item.institute_name_en}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
+
+        <Form.Item
+          label="Parents Name"
+          name="parents_id"
+          rules={[{ required: true, message: "Please select an institute!" }]}
+        >
+          <Select placeholder="Select an parent">
+            {parents.map((item) => (
+              <Option value={item.id} key={item.id}>
+                {item.father_name_en}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
+
+        <Form.Item
+          label="Academic Program"
+          name="academic_program_id"
+          rules={[{ required: true, message: "Please select an institute!" }]}
+        >
+          <Select placeholder="Select an parent">
+            {academics.map((item) => (
+              <Option value={item.id} key={item.id}>
+                {item.name}
               </Option>
             ))}
           </Select>

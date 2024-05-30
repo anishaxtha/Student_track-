@@ -1,5 +1,6 @@
 import React from "react";
 import student from "../assets/student.png";
+import "../index.css";
 
 const Home = () => {
   return (
@@ -12,7 +13,7 @@ const Home = () => {
         />
 
         <div className="absolute inset-0  flex items-center justify-center">
-          <h1 className="text-3xl text-center mt-24 font-semibold cursor-pointer">
+          <h1 className="typewriter text-3xl text-center text-black mt-24 font-semibold cursor-pointer ">
             Welcome to the Student Tracker
           </h1>
         </div>

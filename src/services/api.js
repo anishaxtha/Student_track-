@@ -180,7 +180,3 @@ export const listAcademic = async () => {
   });
   return response.data;
 };
-
-// export const listAffiliation = async() =>{
-//   const response = await axiosInstance.get("")
-// }

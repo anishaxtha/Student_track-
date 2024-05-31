@@ -23,7 +23,6 @@ const formItemLayout = {
 const AddStudent = () => {
   const [form] = Form.useForm();
   const [preview, setPreview] = useState(null);
-  // const [instituteID, setInstituteID] = useState(null);
 
   const [institutes, setInstitutes] = useState([]);
   const [parents, setParents] = useState([]);

@@ -67,7 +67,6 @@ const Tabledata = () => {
   ];
 
   return <Table columns={columns} dataSource={list} />;
-  // <StudentView />;
 };
 
 export default Tabledata;
